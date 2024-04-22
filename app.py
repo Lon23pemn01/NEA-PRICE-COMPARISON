@@ -3,10 +3,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    user = request.args.get("user")
-    if user == None:
+    un = request.args.get("un")
+    pw = request.args.get("pw")
+    if un == None:
         return render_template("index.html")
-    elif user == "bob":
-        return "Hello " + user
+    elif un == "bob" and pw == "123":
+        return "Hello " + un
     else:
         return "user not recognised"
