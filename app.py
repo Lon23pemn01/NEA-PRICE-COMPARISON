@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request
+import sqlite3
 app = Flask(__name__)
 
 @app.route("/", methods=["GET","POST"])
@@ -20,9 +21,11 @@ def signup():
     if request.method == "GET":
        return render_template ("signup.html")
     else:
-       f = open("login.txt", "w")
-       f.write(request.form["un"])
-       f.write("\n")
-       f.write(request.form["pw"])
-       f.close()
+       con = sqlite3.connect("database.db")
+       cur = con.cursor()
+       cur.execute(""" INSET INTO user (username,password)
+                   VALUES (?,?)""",
+                   (request.form["un"],request.form["pw"]))
+       con.commit()
+       con.close()
        return "signup successful"
