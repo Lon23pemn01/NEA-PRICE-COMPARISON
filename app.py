@@ -6,9 +6,23 @@ def home():
     if request.method == "GET":
         return render_template("index.html")
     else:
-      un = request.form["un"]
-      pw = request.form["pw"]
-    if un == "bob" and pw == "123":
-         return "Hello " + un
+      f = open("login.txt", "r")
+      un = f.readline().strip()
+      pw = f.readline().strip()
+      f.close()
+      if un == request.form["un"] and pw == request.form["pw"]:
+        return "Hello " + un
+      else:
+        return "user not recognised"
+     
+@app.route("/signup", methods=["GET","POST"])
+def signup():
+    if request.method == "GET":
+       return render_template ("signup.html")
     else:
-         return "user not recognised"
+       f = open("login.txt", "w")
+       f.write(request.form["un"])
+       f.write("\n")
+       f.write(request.form["pw"])
+       f.close()
+       return "signup successful"
