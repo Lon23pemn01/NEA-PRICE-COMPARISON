@@ -28,4 +28,5 @@ def signup():
                    (request.form["un"],request.form["pw"]))
        con.commit()
        con.close()
-       return "signup successful"
+       return "signup complete"
+       
