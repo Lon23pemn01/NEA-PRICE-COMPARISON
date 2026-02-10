@@ -1,7 +1,5 @@
 import requests
 
-def search_stockx_gb(api_key, query, country='GB', locale='en-GB', currency='GBP'):
-
 API_URL = "stockx11.p.rapidapi.com/searchbykeyword"
 API_KEY = "API Key HERE"
 
@@ -21,10 +19,3 @@ if response.status_code == 200:
         print(f"  Price: ${product['min_price']} - ${product['max_price']}\n")
 
 return data
-
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-        return None
-
-else:
-    print(f"Error: {response.status_code}")

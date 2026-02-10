@@ -31,7 +31,7 @@ def ensure_db(db_path):
     return conn
 
 def search_stockx(query, db_path="stockx.db"):
-    # Connect to database and check for existing matches first
+    # this will connect to database first to check for a match
     conn = ensure_db(db_path)
     cursor = conn.cursor()
     
@@ -69,7 +69,7 @@ def search_stockx(query, db_path="stockx.db"):
     
     print(f"No matches found in database for any word in '{query}'. Fetching from API...\n")
     
-    # No database matches, proceed with API call
+    # if there is no database matches, proceed with API call
     headers = {
         "Content-Type": "application/json",
         "x-api-key": "YOUR_API_KEY_HERE"
@@ -92,7 +92,6 @@ def search_stockx(query, db_path="stockx.db"):
             for idx, item in enumerate(data, 1):
                 print(f"{idx}. {item['name']} - {item['colorway']}\n   SKU: {item['sku']}, Brand: {item['brand']}, Category: {item['category']}, Image: {item['image']}, Slug: {item['slug']}")
                 
-                # Check if slug already exists
                 cursor.execute("SELECT slug FROM stockx_products WHERE slug = ?", (item['slug'],))
                 existing = cursor.fetchone()
                 
@@ -100,7 +99,7 @@ def search_stockx(query, db_path="stockx.db"):
                     print(f"   [Already in database]\n")
                     skipped_count += 1
                 else:
-                    # Insert new product
+                    # add the new product to the database
                     cursor.execute("""
                         INSERT INTO stockx_products (name, colorway, sku, brand, category, image, slug)
                         VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -119,5 +118,5 @@ def search_stockx(query, db_path="stockx.db"):
     else:
         print(f"Error: Status Code {response.status_code}\nResponse: {response.text}")
 
-# Example usage
+# Example use
 search_stockx("Air Jordan Retro")
