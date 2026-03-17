@@ -81,7 +81,8 @@ def search_stockx(query, db_path="stockx.db"):
     # No database matches, proceed with API call
     headers = {
         "Content-Type": "application/json",
-        "x-api-key": "39d75a63-1513-4ee1-bb78-6bc20f2b6050"
+        "x-api-key": ""
+    "
     }
     
     response = requests.get(
